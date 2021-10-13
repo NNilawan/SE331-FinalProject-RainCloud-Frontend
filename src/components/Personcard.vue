@@ -45,8 +45,8 @@ export default {
   width: 100%;
   max-width: 250px;
   border-radius: 10px !important;
-  color: #68b2a0 !important;
-  border-color: #68b2a0 !important;
+  color: #FF7423 !important;
+  border-color: #FF7423 !important;
   text-align: center;
 }
 

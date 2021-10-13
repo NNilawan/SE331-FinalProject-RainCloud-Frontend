@@ -1,6 +1,6 @@
 <template>
   <div v-if="GStore.event">
-    <div class="title">
+    <div class="q-pa-md title">
       <h2 class="text-h1">{{ title }}</h2>
       <div class="q-pa-md nav flex flex-center">
         <q-item id="nav-btn" class="q-gutter-md">
@@ -88,18 +88,18 @@ export default {
 
 #nav-btn a {
   font-weight: bold;
-  color: #fd9927;
+  color: #1565c0;
   text-decoration: none;
 }
 
 #nav-btn a.router-link-exact-active {
   color: #ffffff;
-  background-color: #fd9927;
+  background-color: #1565c0;
   border-radius: 35px;
 }
 
 #nav-content {
-  border: 2px solid #fd9927;
+  border: 2px solid #1565c0;
   border-radius: 35px;
 }
 

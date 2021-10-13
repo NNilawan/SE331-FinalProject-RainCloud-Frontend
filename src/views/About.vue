@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>ABOUT US (<span class="group"> RAIN CLOUD</span> )</h1>
+  <div class="q-pa-md about">
+    <h1 style="color: #ff7423;">ABOUT US (<span class="group"> RAIN CLOUD</span> )</h1>
     <div class="q-pa-md row items-start q-gutter-md flex flex-center">
       <q-card class="card">
         <q-img class="images" src="https://i.ibb.co/4tjMx4R/55.jpg">
@@ -43,7 +43,7 @@
   height: 400px;
 }
 .group {
-  color: #6195ee;
+  color: #1565c0;
 }
 .about {
   text-align: center;

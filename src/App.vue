@@ -2,46 +2,46 @@
   <!--   <div id="flashMessage" v-if="GStore.flashMessage">
     {{ GStore.flashMessage }}
   </div> -->
-  <div class="q-pa-md">
-    <q-layout view="lHh lpr lFf">
-      <q-header reveal elevated class="rounded-borders" id="sidebar">
-        <div class="row">
-          <div class="col">
-            <q-toolbar class="justify-start" style="margin-left: 3%">
-              <q-icon
-                name="vaccines"
-                style="
-                  margin-top: 2%;
-                  margin-bottom: 2%;
-                  margin-right: 1%;
-                  font-size: 27px;
-                "
-              />
-              <b>Vaccination</b>
-            </q-toolbar>
-          </div>
 
-          <div class="col">
-            <div class="row">
-              <router-link :to="{ name: 'PersonList' }">
-                <q-toolbar clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-icon name="home" />
-                  </q-item-section>
-                  <q-item-label>HOME</q-item-label>
-                </q-toolbar>
-              </router-link>
+  <q-layout view="lHh lpr lFf">
+    <q-header reveal elevated class="rounded-borders" id="sidebar">
+      <div class="row">
+        <div class="col-md-3 col-sm-12 col-12">
+          <q-toolbar class="justify-start" style="margin-left: 3%">
+            <q-icon
+              name="vaccines"
+              style="
+                margin-top: 2%;
+                margin-bottom: 2%;
+                margin-right: 1%;
+                font-size: 27px;
+              "
+            />
+            <b>Vaccination</b>
+          </q-toolbar>
+        </div>
 
-              <router-link :to="{ name: 'About' }">
-                <q-toolbar clickable v-ripple>
-                  <q-item-section avatar>
-                    <q-icon name="groups" />
-                  </q-item-section>
-                  <q-item-label>ABOUT US</q-item-label>
-                </q-toolbar>
-              </router-link>
+        <div class="col-md-6 col-sm-12 col-12">
+          <div class="row">
+            <router-link :to="{ name: 'PersonList' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="home" />
+                </q-item-section>
+                <q-item-label>HOME</q-item-label>
+              </q-toolbar>
+            </router-link>
 
-              <!-- <span v-if="isAdmin">
+            <router-link :to="{ name: 'About' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="groups" />
+                </q-item-section>
+                <q-item-label>ABOUT US</q-item-label>
+              </q-toolbar>
+            </router-link>
+
+            <!-- <span v-if="isAdmin">
                 <router-link :to="{ name: 'AddEvent' }">
                   <q-toolbar clickable v-ripple>
                     <q-item-section avatar>
@@ -52,25 +52,25 @@
                   </q-toolbar>
                 </router-link>
               </span> -->
-            </div>
           </div>
+        </div>
 
-          <div class="col">
-            <!--Before login-->
-            <!-- <q-toolbar class="justify-end" v-if="!GStore.currentUser"> -->
-            <q-toolbar class="justify-end">
-              <router-link to="/register">
-                <q-item>Sign up</q-item>
-              </router-link>
-              <router-link to="/login">
-                <q-item>Login</q-item>
-              </router-link>
-            </q-toolbar>
+        <div class="col-md-3 col-sm-12 col-12">
+          <!--Before login-->
+          <!-- <q-toolbar class="justify-end" v-if="!GStore.currentUser"> -->
+          <q-toolbar class="justify-end">
+            <router-link to="/register">
+              <q-item>Sign up</q-item>
+            </router-link>
+            <router-link to="/login">
+              <q-item>Login</q-item>
+            </router-link>
+          </q-toolbar>
 
-            <!--After login-->
-            <!--             
+          <!--After login-->
+          <!--             
               <q-toolbar class="justify-end" v-if="GStore.currentUser">
-              <q-btn-dropdown color="teal" push no-caps @click="onMainClick">
+              <q-btn-dropdown color="deep-orange-7" rounded no-caps @click="onMainClick">
                 <template v-slot:label>
                   <div class="row items-center no-wrap">
                     <q-icon left name="person_outline" />
@@ -85,7 +85,7 @@
                     <q-item-section avatar>
                       <q-avatar
                         icon="person"
-                        color="secondary"
+                        color="deep-orange"
                         text-color="white"
                       />
                     </q-item-section>
@@ -111,24 +111,23 @@
               </q-btn-dropdown>
             </q-toolbar>
             -->
-          </div>
         </div>
-      </q-header>
+      </div>
+    </q-header>
 
-      <q-page-container>
-        <router-view />
+    <q-page-container>
+      <router-view />
 
-        <!-- button back on top -->
-        <q-page-scroller
-          position="bottom-right"
-          :scroll-offset="150"
-          :offset="[18, 18]"
-        >
-          <q-btn fab icon="keyboard_arrow_up" color="warning" />
-        </q-page-scroller>
-      </q-page-container>
-    </q-layout>
-  </div>
+      <!-- button back on top -->
+      <q-page-scroller
+        position="bottom-right"
+        :scroll-offset="150"
+        :offset="[18, 18]"
+      >
+        <q-btn fab icon="keyboard_arrow_up" color="deep-orange" />
+      </q-page-scroller>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
@@ -168,9 +167,9 @@
   animation-duration: 3s;
 }
 #sidebar {
-  background-color: #67b39f;
+  background-color: #ff7423;
   font-size: 23px;
-  margin-top: 1px;
+  margin-top: 0.4px;
 }
 #sidebar a {
   font-weight: bold;
@@ -179,7 +178,14 @@
 }
 
 #sidebar a.router-link-exact-active {
-  color: #2c6975;
-  border-bottom: 3px solid #2c6975;
+  color: #ce3a05;
+  border-bottom: 3px solid #ce3a05;
+}
+
+@media screen and (max-width: 1023px) {
+  div .col-12 .q-toolbar {
+    justify-content: center !important;
+    margin: 0px !important;
+  }
 }
 </style>

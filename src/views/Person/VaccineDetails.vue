@@ -4,8 +4,8 @@
       <q-tabs
         v-model="tab"
         class="text-grey"
-        active-color="secondary"
-        indicator-color="secondary"
+        active-color="deep-orange"
+        indicator-color="deep-orange"
       >
         <q-tab label="FIRST DOSE" name="one" />
         <q-tab
@@ -115,13 +115,13 @@ export default {
   border-radius: 10px !important;
   width: 100%;
   max-width: 600px;
-  border: 1px solid #68b2a0;
+  border: 1px solid #ff7423;
 }
 #text-details {
   font-size: 20px;
 }
 #text-color {
-  color: #2c6975;
+  color: #ff7423;
 }
 #vaccine-logo {
   width: 250px;

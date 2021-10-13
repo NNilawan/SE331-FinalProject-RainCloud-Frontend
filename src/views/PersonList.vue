@@ -1,30 +1,33 @@
 <template>
-  <div class="home">
-    <h1 class="title">PEOPLE LIST</h1>
-    <h2 class="subtitle">THE PEOPLE LIST WHO HAVE BEEN VACCINATED</h2>
-  </div>
+  <div class="q-pa-md">
+    <div class="home">
+      <h1 class="title">PEOPLE LIST</h1>
+      <h2 class="subtitle">THE PEOPLE LIST WHO HAVE BEEN VACCINATED</h2>
+    </div>
 
-  <div class="row">
-    <Personcard v-for="data in datas" :key="data.id" :data="data" />
-  </div>
+    <div class="row">
+      <Personcard v-for="data in datas" :key="data.id" :data="data" />
+    </div>
 
-  <div class="pagination q-gutter-md">
-    <router-link
-      class="pagination"
-      :to="{ name: 'PersonList', query: { page: page - 1 } }"
-      rel="prev"
-      v-if="page != 1"
-    >
-      <q-btn unelevated rounded color="orange" label="Prev Page"
-    /></router-link>
+    <div class="pagination q-gutter-md">
+      <router-link
+        class="pagination"
+        :to="{ name: 'PersonList', query: { page: page - 1 } }"
+        rel="prev"
+        v-if="page != 1"
+      >
+        <q-btn unelevated rounded color="orange" label="Prev Page" />
+      </router-link>
 
-    <router-link
-      class="pagination"
-      :to="{ name: 'PersonList', query: { page: page + 1 } }"
-      rel="next"
-      v-if="hasNextPage"
-      ><q-btn unelevated rounded color="orange" label="Next Page" />
-    </router-link>
+      <router-link
+        class="pagination"
+        :to="{ name: 'PersonList', query: { page: page + 1 } }"
+        rel="next"
+        v-if="hasNextPage"
+      >
+        <q-btn unelevated rounded color="orange" label="Next Page" />
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -100,7 +103,7 @@ export default {
 .subtitle {
   margin-top: -40px;
   font-weight: bold;
-  color: #68b2a0;
+  color: #ff7423;
 }
 .block {
   font-size: 22px;

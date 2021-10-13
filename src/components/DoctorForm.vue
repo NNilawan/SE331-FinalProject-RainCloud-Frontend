@@ -6,7 +6,7 @@
         id="name"
         v-model="name"
         class="text-h5"
-        standout="bg-teal text-white"
+        standout="bg-deep-orange-4 text-white"
         label="Doctor Name:"
       />
       <br />
@@ -16,7 +16,7 @@
         id="question"
         v-model="question"
         class="text-h5"
-        standout="bg-teal text-white"
+        standout="bg-deep-orange-4 text-white"
         label=" Doctor would like to comment that:"
         filled
         autogrow
@@ -29,7 +29,7 @@
           value="Submit"
           outline
           rounded
-          color="teal-7"
+          color="deep-orange"
           label="Submit"
           @click="flashMessage"
         />
@@ -83,7 +83,7 @@ export default {
   border-radius: 10px !important;
   width: 100%;
   max-width: 600px;
-  border: 1px solid #68b2a0;
+  border: 1px solid #FF7423;
   margin: auto;
 }
 </style>

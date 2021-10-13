@@ -9,6 +9,8 @@ import NotFound from '@/views/NotFound.vue'
 import NetWorkError from '@/views/NetworkError.vue'
 import PersonService from '@/services/PersonService.js'
 import GStore from '@/store'
+import Login from '@/views/LoginForm.vue'
+import Register from '@/views/RegisterForm.vue'
 
 const routes = [{
   path: '/',
@@ -71,6 +73,16 @@ const routes = [{
   name: '404Resource',
   component: NotFound,
   props: true
+},
+{
+  path: '/login',
+  name: 'Login',
+  component: Login
+},
+{
+  path: '/register',
+  name: 'Register',
+  component: Register
 },
 {
   path: '/:catchAll(.*)',
