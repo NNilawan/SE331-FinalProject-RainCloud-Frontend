@@ -9,8 +9,9 @@ import NotFound from '@/views/NotFound.vue'
 import NetWorkError from '@/views/NetworkError.vue'
 import PersonService from '@/services/PersonService.js'
 import GStore from '@/store'
-import Login from '@/views/LoginForm.vue'
-import Register from '@/views/RegisterForm.vue'
+import Login from '@/views/Authentication/LoginForm.vue'
+import Register from '@/views/Authentication/RegisterForm.vue'
+import AdminConsole from '@/views/Admin/AdminConsole.vue'
 
 const routes = [{
   path: '/',
@@ -67,6 +68,11 @@ const routes = [{
       component: DoctorDetails
     }
   ]
+},
+{
+  path: '/admin-console',
+  name: 'AdminConsole',
+  component: AdminConsole
 },
 {
   path: '/404/:resource',

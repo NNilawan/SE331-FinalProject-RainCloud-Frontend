@@ -7,6 +7,7 @@ import quasarUserOptions from "./quasar-user-options";
 import 'nprogress/nprogress.css'
 import 'bootstrap'
 import { FontAwesomeIcon } from './plugins/font-awesome'
+import '@/services/AxiosInterceptorSetup.js';
 
 createApp(App)
     .use(Quasar, quasarUserOptions)

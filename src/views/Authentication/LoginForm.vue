@@ -2,30 +2,38 @@
   <div class="parent clearfix">
     <div class="bg-illustration"></div>
 
-    <div class="login q-pa-lg" style="text-align: center">
+    <div class="login q-pa-lg">
       <div class="container">
         <div class="login-form">
-          <div class="text-h2" style="color: #ff7423">Login</div>
+          <div class="text-h2">Login</div>
           <Form @submit="handleLogin" :validation-schema="schema">
-            <div class="form-group">
+            <Field
+              @submit="handleLogin"
+              name="username"
+              v-slot="{ errorMessage, value, field }"
+            >
               <q-input
-                v-model="text"
-                name="username"
-                type="text"
                 label="Username"
-                class="text-h5"
-                style="padding: 10px"
+                color="orange"
+                v-model="username"
+                :model-value="value"
+                v-bind="field"
+                :error-message="errorMessage"
+                :error="!!errorMessage"
+                @keydown.space.prevent
               />
-              <ErrorMessage name="username" class="error-feedback" />
-            </div>
-            <div class="form-group">
+            </Field>
+            <Field name="password" v-slot="{ errorMessage, value, field }">
               <q-input
-                name="password"
+                label="Password"
+                color="orange"
                 v-model="password"
                 :type="isPwd ? 'password' : 'text'"
-                label="Password"
-                class="text-h5"
-                style="padding: 10px"
+                :model-value="value"
+                v-bind="field"
+                :error-message="errorMessage"
+                :error="!!errorMessage"
+                @keydown.space.prevent
               >
                 <template v-slot:append>
                   <q-icon
@@ -35,20 +43,22 @@
                   />
                 </template>
               </q-input>
-              <ErrorMessage name="password" class="error-feedback" />
-            </div>
+            </Field>
 
-            <div class="form-group" style="margin-top: 50px">
-              <q-btn class="btn-auth" push :disabled="loading" size="20px">
-                <span v-show="loading"></span>
+            <div>
+              <q-btn class="btn-auth" push size="20px" type="submit">
                 <span>Login</span>
               </q-btn>
             </div>
 
-            <div class="form-group">
-              <div v-if="message" class="alert alert-danger" role="alert">
-                {{ message }}
-              </div>
+            <div class="div-auth">
+              Don't have an account?
+              <span class="span-auth">
+                <router-link :to="{ name: 'Register' }"> Register </router-link>
+              </span>
+            </div>
+            <div class="alert-message" v-if="message">
+              {{ message }}
             </div>
           </Form>
         </div>
@@ -58,45 +68,59 @@
 </template>
 
 <script>
-import { Form, ErrorMessage } from "vee-validate";
-/* import * as yup from 'yup'
-import AuthService from '@/services/AuthService.js' */
+import { Field, Form } from "vee-validate";
+import * as yup from "yup";
+import AuthService from "@/services/AuthService.js";
 import { ref } from "vue";
 
 export default {
   name: "Login",
   components: {
+    Field,
     Form,
-    ErrorMessage,
   },
   setup() {
     return {
+      username: ref(""),
       password: ref(""),
       isPwd: ref(true),
     };
   },
-  /* data() {
+  data() {
     const schema = yup.object().shape({
-      username: yup.string().required('Username is required!'),
-      password: yup.string().required('Password is required!')
-    })
+      username: yup.string().required("Username is required!"),
+      password: yup.string().required("Password is required!"),
+    });
     return {
       loading: false,
-      message: '',
-      schema
-    }
+      message: "",
+      schema,
+    };
   },
   methods: {
     handleLogin(user) {
       AuthService.login(user)
         .then(() => {
-          this.$router.push({ name: 'EventList' })
+          this.$router.push({ name: "About" });
+          /* if (this.Vaccination.isUser && this.Vaccination.currentUser) {
+            this.$router.push({ name: "PeopleDetails" });
+          } else if (
+            this.Vaccination.isDoctor &&
+            this.Vaccination.currentUser
+          ) {
+            this.$router.push({ name: "PersonList" });
+          } else if (this.Vaccination.isAdmin && this.Vaccination.currentUser) {
+            this.$router.push({ name: "AdminConsole" });
+          } */
         })
         .catch(() => {
-          this.message = 'could not login'
-        })
-    }
-  } */
+          this.message = "Could not login";
+          setTimeout(() => {
+            this.message = "";
+          }, 1500);
+        });
+    },
+  },
 };
 </script>
 
@@ -178,6 +202,7 @@ img {
   float: left;
   margin: 0 auto;
   width: calc(100% - 1194px);
+  text-align: center;
 }
 .login .container {
   width: 505px;
@@ -207,13 +232,11 @@ img {
   border-radius: 10px;
 }
 .login .container .login-form form button[type="submit"] {
-  background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
+  background-color: #ff7423;
   border: none;
-  margin-top: 124px;
+  margin-top: 50px;
   margin-bottom: 20px;
-  width: 241px;
+  width: 100%;
   height: 58px;
   text-transform: uppercase;
   color: white;
@@ -223,9 +246,7 @@ img {
   font-weight: bold;
   font-size: 20px;
 }
-.login .container .login-form form button[type="submit"]:hover::after {
-  opacity: 1;
-}
+
 .login .container .login-form form button[type="submit"]::after {
   content: "";
   position: absolute;
@@ -249,52 +270,6 @@ img {
   background: -webkit-linear-gradient(bottom, #09203f 0%, #537895 100%);
   background: -o-linear-gradient(bottom, #09203f 0%, #537895 100%);
   background: linear-gradient(to top, #09203f 0%, #537895 100%);
-}
-.login .container .remember-form {
-  position: relative;
-  margin-top: -30px;
-}
-.login .container .remember-form input[type="checkbox"] {
-  margin-top: 9px;
-}
-.login .container .remember-form span {
-  font-size: 18px;
-  font-weight: normal;
-  position: absolute;
-  top: 32px;
-  color: #3b3b3b;
-  margin-left: 15px;
-}
-.login .container .forget-pass {
-  position: absolute;
-  right: 0;
-  margin-top: 189px;
-}
-.login .container .forget-pass a {
-  font-size: 16px;
-  position: relative;
-  font-weight: normal;
-  color: #918f8f;
-}
-.login .container .forget-pass a::after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  width: 100%;
-  border-radius: 100px;
-  background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-  background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
-  bottom: -4px;
-  left: 0;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  opacity: 0;
-  right: 0;
-}
-.login .container .forget-pass a:hover::after {
-  opacity: 1;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1680px) {
@@ -378,53 +353,27 @@ img {
     height: 45px;
     margin-top: 100px;
   }
-  .login .container .login-form .remember-form {
-    position: relative;
-    margin-top: -14px;
-  }
-  .login .container .login-form .remember-form span {
-    font-size: 16px;
-    margin-top: 22px;
-    top: inherit;
-  }
-
-  .forget-pass {
-    position: absolute;
-    right: inherit;
-    left: 0;
-    bottom: -40px;
-    margin: 0 !important;
-  }
-  .forget-pass a {
-    font-size: 16px;
-    position: relative;
-    font-weight: normal;
-    color: #918f8f;
-  }
-  .forget-pass a::after {
-    content: "";
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    border-radius: 100px;
-    background: -webkit-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-    background: -o-linear-gradient(110deg, #f794a4 0%, #fdd6bd 100%);
-    background: linear-gradient(-20deg, #f794a4 0%, #fdd6bd 100%);
-    bottom: -4px;
-    left: 0;
-    -webkit-transition: 0.3s;
-    -o-transition: 0.3s;
-    transition: 0.3s;
-    opacity: 0;
-    right: 0;
-  }
-  .forget-pass a:hover::after {
-    opacity: 1;
-  }
 }
-.btn-auth {
-  width: 100%;
-  color: white;
-  background-color: #ff7423;
+
+.q-input {
+  padding: 10px;
+  font-size: 22px;
+}
+.text-h2 {
+  color: #ff7423;
+}
+.alert-message {
+  color: red;
+  font-size: 20px;
+  margin-top: 2%;
+}
+.div-auth {
+  font-size: 18px;
+  color: #696868;
+}
+.span-auth a {
+  color: #ff7423;
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>
