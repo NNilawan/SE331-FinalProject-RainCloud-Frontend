@@ -21,6 +21,7 @@
                 :error-message="errorMessage"
                 :error="!!errorMessage"
                 @keydown.space.prevent
+                v-on:keypress="isAlphabetOrNumber($event)"
               />
             </Field>
             <Field name="password" v-slot="{ errorMessage, value, field }">
@@ -34,6 +35,7 @@
                 :error-message="errorMessage"
                 :error="!!errorMessage"
                 @keydown.space.prevent
+                v-on:keypress="isAlphabetOrNumber($event)"
               >
                 <template v-slot:append>
                   <q-icon
@@ -119,6 +121,11 @@ export default {
             this.message = "";
           }, 1500);
         });
+    },
+    isAlphabetOrNumber(e) {
+      let char = String.fromCharCode(e.keyCode);
+      if (/^[A-Za-z0-9_-]+$/.test(char)) return true;
+      else e.preventDefault();
     },
   },
 };
