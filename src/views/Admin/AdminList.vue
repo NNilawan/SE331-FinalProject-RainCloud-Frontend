@@ -10,10 +10,10 @@
       <div class="col-1 table">Edit</div>
     </div>
 
-    <div v-for="data in user" :key="data.id" :data="data">
+    <div v-for="(data, i) in user" :key="data.id" :data="data">
       <div v-if="data.authorities == 'ROLE_DOCTOR'">
         <div class="row">
-          <div class="col-1 subtable">{{ data.id }}</div>
+          <div class="col-1 subtable">{{ i + 0 }}</div>
           <div class="col-2 subtable">{{ data.firstname }}</div>
           <div class="col-2 subtable">{{ data.lastname }}</div>
           <div class="col-2 subtable">
@@ -23,15 +23,18 @@
           <div class="col-2 subtable">
             <q-btn color="orange" label="Change role" />
           </div>
+
           <div class="col-1 subtable">
-            <q-btn color="orange" label="Edit" />
+            <router-link style="text-decoration:none" :to="{ name: 'AdminDetails', params: { id: data.id } }">
+              <q-btn color="orange" label="Edit" />
+            </router-link>
           </div>
         </div>
       </div>
 
       <div v-else-if="data.authorities == 'ROLE_USER'">
         <div class="row">
-          <div class="col-1 subtable">{{ data.id }}</div>
+          <div class="col-1 subtable">{{ i + 0 }}</div>
           <div class="col-2 subtable">{{ data.firstname }}</div>
           <div class="col-2 subtable">{{ data.lastname }}</div>
           <div class="col-2 subtable">
@@ -41,8 +44,11 @@
           <div class="col-2 subtable">
             <q-btn color="orange" label="Change role" />
           </div>
+
           <div class="col-1 subtable">
-            <q-btn color="orange" label="Edit" />
+            <router-link  style="text-decoration:none" :to="{ name: 'AdminDetails' , params: { id: data.id } }">
+              <q-btn color="orange" label="Edit" />
+            </router-link>
           </div>
         </div>
       </div>
@@ -51,7 +57,6 @@
 </template>
 <script>
 import AdminService from "@/services/AdminService.js";
-// import AuthService from "@/services/AuthService.js";
 export default {
   name: "AdminList",
 
@@ -70,11 +75,6 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-  },
-  computed: {
-    currentUser() {
-      return localStorage.getItem("user");
-    },
   },
 };
 </script>
