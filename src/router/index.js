@@ -12,6 +12,8 @@ import GStore from '@/store'
 import Login from '@/views/LoginForm.vue'
 import Register from '@/views/RegisterForm.vue'
 
+import AdminList from '@/views/Admin/AdminList.vue'
+
 const routes = [{
   path: '/',
   name: 'PersonList',
@@ -74,6 +76,13 @@ const routes = [{
   component: NotFound,
   props: true
 },
+{
+  path: '/admin',
+  name: 'AdminList',
+  component: AdminList,
+  props: true
+},
+
 {
   path: '/login',
   name: 'Login',
