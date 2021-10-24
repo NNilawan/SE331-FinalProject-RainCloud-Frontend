@@ -127,7 +127,7 @@ export default {
       } else if (this.GStore.isDoctor && this.GStore.currentUser) {
         this.$router.push({ name: "PersonList" });
       } else if (this.GStore.isAdmin && this.GStore.currentUser) {
-        this.$router.push({ name: "AdminConsole" });
+        this.$router.push({ name: "AdminList" });
       }
     },
   },
@@ -139,7 +139,7 @@ export default {
     } else if (this.GStore.isDoctor && this.GStore.currentUser) {
       this.$router.push({ name: "PersonList" });
     } else if (this.GStore.isAdmin && this.GStore.currentUser) {
-      this.$router.push({ name: "AdminConsole" });
+      this.$router.push({ name: "AdminList" });
     }
   },
 };

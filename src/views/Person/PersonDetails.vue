@@ -38,7 +38,7 @@ export default {
       var dose2 = this.event.status_does2;
       if (dose2 === true) {
         return "Already get second dose";
-      } else {
+      } else { 
         return "Waiting for second dose";
       }
     },

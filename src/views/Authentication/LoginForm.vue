@@ -101,7 +101,7 @@ export default {
     handleLogin(user) {
       AuthService.login(user)
         .then(() => {
-          this.$router.push({ name: "About" });
+          this.$router.push({ name: "AdminList" });
           /* if (this.Vaccination.isUser && this.Vaccination.currentUser) {
             this.$router.push({ name: "PeopleDetails" });
           } else if (
