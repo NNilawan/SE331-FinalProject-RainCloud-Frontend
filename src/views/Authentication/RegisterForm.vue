@@ -124,7 +124,7 @@
                 </Field>
               </div>
             </div>
-            <UploadImages @changed="handleImages" :max="1" />
+            <UploadImages @changed="handleImages" :max="1" name="picture"/>
 
             <div>
               <q-btn class="btn-auth" push size="20px" type="submit">
@@ -195,6 +195,8 @@ export default {
         .string()
         .required("Hometown is required!")
         .max(50, "Must be maximum 50 characters!"),
+      picture: yup
+        .string(),
     });
 
     return {
@@ -215,24 +217,26 @@ export default {
     // eslint-disable-next-line
     handleRegister(user) {
       this.message = "";
-      AuthService.register(user)
-        .then(() => {
-          Promise.all(
-            this.files.map((file) => {
-              return AuthService.uploadFile(file);
-            })
-          ).then((response) => {
-            this.picture = response.map((r) => r.data);
-            this.$router.push({ name: "Login" });
-          });
+      Promise.all(
+        this.files.map((file) => {
+          return AuthService.uploadFile(file);
         })
-        .catch(() => {
-          this.message = "Could not register";
-          setTimeout(() => {
-            this.message = "";
-          }, 1500);
-        });
-      console.log(user);
+      ).then((response) => {
+        user.picture = response.map((r) => r.data);
+        user.picture = user.picture[0]
+        console.log(user)
+        AuthService.register(user)
+          .then((response) => {
+            console.log(response);
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {
+            this.message = "Could not register";
+            setTimeout(() => {
+              this.message = "";
+            }, 1500);
+          });
+      });
     },
     handleImages(files) {
       this.files = files;
