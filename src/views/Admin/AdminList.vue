@@ -1,85 +1,80 @@
 <template>
   <div class="q-pa-md">
-    <div class="row table">
-      <div class="col-1">No.</div>
-      <div class="col-1">Name</div>
-      <div class="col-1">Surname</div>
-      <div class="col-1">Age</div>
-      <div class="col-2">Hometown</div>
-      <div class="col-1">Vaccine Does1</div>
-      <div class="col-1">Vaccine Does1</div>
-      <div class="col-1">Doctor</div>
-      <div class="col-1">Edit</div>
+    <h2 class="title">USERS LIST MANAGEMENT</h2>
+    <div class="row">
+      <div class="col-1 table">No.</div>
+      <div class="col-2 table">Name</div>
+      <div class="col-2 table">Surname</div>
+      <div class="col-2 table">Role user</div>
+      <div class="col-2 table">Change role to doctor</div>
+      <div class="col-1 table">Edit</div>
     </div>
-    <div class="row table" v-for="data in user_vaacine" :key="data.id" :data="data" >
-      <div class="col-1">1</div>
-      <div class="col-1">{{ data.patient.firstname}}</div>
-      <div class="col-1">{{ data.patient.lastname}}</div>
-      <div class="col-1">{{ calculateAge }}</div>
-      <div class="col-2">{{ data.patient.hometown}}</div>
-      <div class="col-1">{{ data.vaccine.name}}</div>
-      <div class="col-1">{{ data.vaccine.name}}</div>
-      <div class="col-1">{{ data.name}}</div>
-      <div class="col-1"> <q-btn color="orange" label="Edit" /></div>
+
+    <div class="row" v-for="data in user" :key="data.id" :data="data">
+      <div v-if="data.authorities == 'ROLE_ADMIN'"></div>
+        <div class="col-1 subtable">{{ data.id }}</div>
+        <div class="col-2 subtable">{{ data.firstname }}</div>
+        <div class="col-2 subtable">{{ data.lastname }}</div>
+        <div class="col-2 subtable">
+          <span v-if="data.authorities == 'ROLE_DOCTOR'">Doctor</span>
+          <span v-else>User</span>
+        </div>
+        <div class="col-2 subtable">
+          <q-btn color="orange" label="Change role" />
+        </div>
+        <div class="col-1 subtable"><q-btn color="orange" label="Edit" /></div>
+      
     </div>
   </div>
 </template>
 <script>
 import AdminService from "@/services/AdminService.js";
-import AuthService from "@/services/AuthService.js";
+// import AuthService from "@/services/AuthService.js";
 export default {
   name: "AdminList",
 
   data() {
     return {
-      user_vaacine: null,
-      totalPersons: 0, // <--- Added this to store totalPersons
+      user: null,
     };
   },
 
   // eslint-disable-next-line no-unused-vars
-      created() {
+  created() {
     AdminService.getPersonInAdmin()
       .then((response) => {
-        this.user_vaacine = response.data
+        this.user = response.data;
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
   },
   computed: {
     currentUser() {
       return localStorage.getItem("user");
     },
-    isDoctor() {
-      return AuthService.hasRoles("ROLE_DOCTOR");
-    },
-    calculateAge: function() {
-          // let currentDate = new Date();
-          // let date = this.user_vaacine.birthdate;
-          // let birthDate = new Date(date);
-          // let difference = currentDate - birthDate;
-          // let age = Math.floor(difference/31557600000);
-          // return age
-         
-          let currentDate = new Date();
-          let birthDate = new Date(this.user_vaacine.birthdate);
-          let difference = currentDate - birthDate;
-          let age = Math.floor(difference/31557600000);
-          return age
-        
-        },
   },
-  
 };
 </script>
 
 <style>
 .table {
+  font-size: 25px;
   padding: 10px 15px;
-  background: rgba(102, 0, 255, 0.15);
+  background: #ffa9485d;
   border: 1px solid rgba(2, 1, 2, 0.2);
   margin-top: 1rem;
   text-align: center;
+}
+.subtable {
+  font-size: 20px;
+  padding: 10px 15px;
+  /* margin-top: 1rem; */
+  background: white;
+  border: 1px solid rgba(2, 1, 2, 0.2);
+  text-align: center;
+}
+.title {
+  font-weight: bold;
 }
 </style>
