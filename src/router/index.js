@@ -11,9 +11,10 @@ import PersonService from '@/services/PersonService.js'
 import GStore from '@/store'
 import Login from '@/views/Authentication/LoginForm.vue'
 import Register from '@/views/Authentication/RegisterForm.vue'
-
+// import AdminService from '@/services/AdminService.js'
+import VaccineService from '@/services/VaccineService.js'
 import AdminList from '@/views/Admin/AdminList.vue'
-
+import AdminDetails from '@/views/Admin/AdminDetails.vue'
 const routes = [{
   path: '/',
   name: 'PersonList',
@@ -82,7 +83,22 @@ const routes = [{
   component: AdminList,
   props: true
 },
-
+{
+  path: '/admin/:id',
+  name: 'AdminDetails',
+  component: AdminDetails,
+  props: true,
+  beforeEnter: () => {
+    return VaccineService.getVaccine()
+    .then((response) => {
+      GStore.vaccine = response.data
+    })
+    .catch(() => {
+      GStore.vaccine = null
+      console.log('cannot load vaccine')
+    })
+  }
+},
 {
   path: '/login',
   name: 'Login',
