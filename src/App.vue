@@ -21,16 +21,18 @@
           </q-toolbar>
         </div>
 
-        <div class="col-md-6 col-sm-12 col-12">
+        <div v-if="!GStore.currentUser" class="col-md-6 col-sm-12 col-12"></div>
+
+        <div v-if="GStore.currentUser" class="col-md-6 col-sm-12 col-12">
           <div class="row">
-            <router-link :to="{ name: 'PersonList' }">
+            <div @click="rolePath()">
               <q-toolbar clickable v-ripple>
                 <q-item-section avatar>
                   <q-icon name="home" />
                 </q-item-section>
                 <q-item-label>HOME</q-item-label>
               </q-toolbar>
-            </router-link>
+            </div>
 
             <router-link :to="{ name: 'About' }">
               <q-toolbar clickable v-ripple>
@@ -40,77 +42,42 @@
                 <q-item-label>ABOUT US</q-item-label>
               </q-toolbar>
             </router-link>
-
-            <!-- <span v-if="isAdmin">
-                <router-link :to="{ name: 'AddEvent' }">
-                  <q-toolbar clickable v-ripple>
-                    <q-item-section avatar>
-                      <q-icon name="add_circle" />
-                    </q-item-section>
-
-                    <q-item-label>NEW EVENT</q-item-label>
-                  </q-toolbar>
-                </router-link>
-              </span> -->
           </div>
         </div>
 
+        <!--After login-->
         <div class="col-md-3 col-sm-12 col-12">
-          <!--Before login-->
-          <!-- <q-toolbar class="justify-end" v-if="!GStore.currentUser"> -->
-          <q-toolbar class="justify-end">
-            <router-link to="/register">
-              <q-item>Sign up</q-item>
-            </router-link>
-            <router-link to="/login">
-              <q-item>Login</q-item>
-            </router-link>
-          </q-toolbar>
-
-          <!--After login-->
-          <!--             
-              <q-toolbar class="justify-end" v-if="GStore.currentUser">
-              <q-btn-dropdown color="deep-orange-7" rounded no-caps @click="onMainClick">
-                <template v-slot:label>
-                  <div class="row items-center no-wrap">
-                    <q-icon left name="person_outline" />
-                    <div class="text-center" style="font-size: 20px">
-                       {{ GStore.currentUser.name }}
-                    </div>
+          <q-toolbar class="justify-end" v-if="GStore.currentUser">
+            <q-btn-dropdown color="deep-orange-7" rounded no-caps>
+              <template v-slot:label>
+                <div class="row items-center no-wrap">
+                  <q-icon left name="person_outline" />
+                  <div class="text-center" style="font-size: 20px">
+                    {{ GStore.currentUser.firstname }}
                   </div>
-                </template>
+                </div>
+              </template>
 
-                <q-list>
-                  <q-item clickable v-close-popup @click="onItemClick">
+              <q-list>
+                <a @click="logout">
+                  <q-item clickable v-close-popup>
                     <q-item-section avatar>
                       <q-avatar
-                        icon="person"
-                        color="deep-orange"
+                        icon="logout"
+                        color="negative"
                         text-color="white"
                       />
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label style="font-size: 18px">Profile</q-item-label>
+                      <q-item-label style="font-size: 18px"
+                        >Logout</q-item-label
+                      >
                     </q-item-section>
                   </q-item>
-                  <a @click="logout">
-                    <q-item clickable v-close-popup @click="onItemClick">
-                      <q-item-section avatar>
-                        <q-avatar
-                          icon="logout"
-                          color="negative"
-                          text-color="white"
-                        />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label style="font-size: 18px">Logout</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </a>
-                </q-list>
-              </q-btn-dropdown>
-            </q-toolbar>
-            -->
+                </a>
+              </q-list>
+            </q-btn-dropdown>
+          </q-toolbar>
         </div>
       </div>
     </q-header>
@@ -131,9 +98,9 @@
 </template>
 
 <script>
-/* import AuthService from './services/AuthService.js' 
+import AuthService from "./services/AuthService.js";
 
-  export default {
+export default {
   inject: ["GStore"], // <----
   computed: {
     currentUser() {
@@ -142,14 +109,40 @@
     isAdmin() {
       return AuthService.hasRoles("ROLE_ADMIN");
     },
+    isDoctor() {
+      return AuthService.hasRoles("ROLE_DOCTOR");
+    },
+    isUser() {
+      return AuthService.hasRoles("ROLE_USER");
+    },
   },
   methods: {
     logout() {
       AuthService.logout();
-      this.$router.push("/login"); //fix from .go -> .push for redirect to login page
+      this.$router.push("/login"); //fix from .go to .push for redirect to login page
+    },
+    rolePath() {
+      if (this.GStore.isUser && this.GStore.currentUser) {
+        this.$router.push({ path: "/datas/{id}" });
+      } else if (this.GStore.isDoctor && this.GStore.currentUser) {
+        this.$router.push({ name: "PersonList" });
+      } else if (this.GStore.isAdmin && this.GStore.currentUser) {
+        this.$router.push({ name: "AdminConsole" });
+      }
     },
   },
-}; */
+  mounted() {
+    if (!this.GStore.currentUser) {
+      this.$router.push({ name: "Login" });
+    } else if (this.GStore.isUser && this.GStore.currentUser) {
+      this.$router.push({ name: "Layout", params: this.GStore.currentUser.id });
+    } else if (this.GStore.isDoctor && this.GStore.currentUser) {
+      this.$router.push({ name: "PersonList" });
+    } else if (this.GStore.isAdmin && this.GStore.currentUser) {
+      this.$router.push({ name: "AdminConsole" });
+    }
+  },
+};
 </script>
 
 <style>
