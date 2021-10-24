@@ -10,20 +10,42 @@
       <div class="col-1 table">Edit</div>
     </div>
 
-    <div class="row" v-for="data in user" :key="data.id" :data="data">
-      <div v-if="data.authorities == 'ROLE_ADMIN'"></div>
-        <div class="col-1 subtable">{{ data.id }}</div>
-        <div class="col-2 subtable">{{ data.firstname }}</div>
-        <div class="col-2 subtable">{{ data.lastname }}</div>
-        <div class="col-2 subtable">
-          <span v-if="data.authorities == 'ROLE_DOCTOR'">Doctor</span>
-          <span v-else>User</span>
+    <div v-for="data in user" :key="data.id" :data="data">
+      <div v-if="data.authorities == 'ROLE_DOCTOR'">
+        <div class="row">
+          <div class="col-1 subtable">{{ data.id }}</div>
+          <div class="col-2 subtable">{{ data.firstname }}</div>
+          <div class="col-2 subtable">{{ data.lastname }}</div>
+          <div class="col-2 subtable">
+            <span v-if="data.authorities == 'ROLE_DOCTOR'">Doctor</span>
+            <span v-else>User</span>
+          </div>
+          <div class="col-2 subtable">
+            <q-btn color="orange" label="Change role" />
+          </div>
+          <div class="col-1 subtable">
+            <q-btn color="orange" label="Edit" />
+          </div>
         </div>
-        <div class="col-2 subtable">
-          <q-btn color="orange" label="Change role" />
+      </div>
+
+      <div v-else-if="data.authorities == 'ROLE_USER'">
+        <div class="row">
+          <div class="col-1 subtable">{{ data.id }}</div>
+          <div class="col-2 subtable">{{ data.firstname }}</div>
+          <div class="col-2 subtable">{{ data.lastname }}</div>
+          <div class="col-2 subtable">
+            <span v-if="data.authorities == 'ROLE_DOCTOR'">Doctor</span>
+            <span v-else>User</span>
+          </div>
+          <div class="col-2 subtable">
+            <q-btn color="orange" label="Change role" />
+          </div>
+          <div class="col-1 subtable">
+            <q-btn color="orange" label="Edit" />
+          </div>
         </div>
-        <div class="col-1 subtable"><q-btn color="orange" label="Edit" /></div>
-      
+      </div>
     </div>
   </div>
 </template>
@@ -76,5 +98,8 @@ export default {
 }
 .title {
   font-weight: bold;
+}
+.hide {
+  visibility: hidden !important;
 }
 </style>
