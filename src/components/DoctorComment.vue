@@ -7,10 +7,12 @@
     >
       <div class="text-h6">
         <b>Doctor Name:</b>
-        {{ review.name }} | <b> Time:</b> {{ review.time }}
+        {{ review.commentBy.firstname + ' ' + review.commentBy.lastname}} <br>
+        <b> Date:</b> {{ review.date }} | 
+        <b> Time:</b> {{ review.time }}
       </div>
       <div class="text-h5 text-weight-bolde">
-        <p class="o">{{ review.question }}</p>
+        <p class="o">{{ review.comment }}</p>
       </div>
     </q-card-section>
   </div>

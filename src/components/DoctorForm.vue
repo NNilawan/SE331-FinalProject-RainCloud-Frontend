@@ -1,7 +1,7 @@
 <template>
-  <form class="review-form" @submit.prevent="onSubmit">
+  <form class="review-form" @submit="onSubmit">
     <q-card-section class="text-left textbox">
-      <q-input
+      <!-- <q-input
         for="name"
         id="name"
         v-model="name"
@@ -9,7 +9,7 @@
         standout="bg-deep-orange-4 text-white"
         label="Doctor Name:"
       />
-      <br />
+      <br /> -->
 
       <q-input
         for="question"
@@ -43,30 +43,32 @@ export default {
   inject: ["GStore"],
   data() {
     return {
-      name: "",
+      // name: "",
       question: "",
-      time: "",
+      // time: "",
     };
   },
   methods: {
     onSubmit() {
-      if (this.name === "" || this.question === "") {
-        alert("Recommend is incomplete. Please fill out every field");
+      // if (this.name === "" || this.question === "") {
+      if (this.question === "") {
+        alert("Recommend is incomplete. Please fill out comment field");
         return;
       }
-      var today = new Date();
-      var time = today.toLocaleTimeString();
+      // var today = new Date();
+      // var time = today.toLocaleTimeString();
       let doctorRecommmend = {
-        name: this.name,
+        // name: this.name,
         question: this.question,
-        time: time,
+        // time: time,
       };
       this.$emit("review-submitted", doctorRecommmend);
-      this.name = "";
+      // this.name = "";
       this.question = "";
     },
     flashMessage() {
-      if (this.name != "" && this.question != "") {
+      // if (this.name != "" && this.question != "") {
+      if (this.question != "") {
         this.GStore.flashMessage = "You comment already";
         setTimeout(() => {
           //After 5 seconds remove it
