@@ -102,18 +102,14 @@ export default {
   methods: {
     handleLogin(user) {
       AuthService.login(user)
-        .then(() => {
-          this.$router.push({ name: "AdminList" });
-          /* if (this.Vaccination.isUser && this.Vaccination.currentUser) {
-            this.$router.push({ name: "PeopleDetails" });
-          } else if (
-            this.Vaccination.isDoctor &&
-            this.Vaccination.currentUser
-          ) {
+        .then((response) => {
+          if (this.isAdmin) {
+            this.$router.push({ name: "AdminList" });
+          } else if (this.isUser) {
+            this.$router.push("/datas/" + response.user.id + "");
+          } else if (this.isDoctor) {
             this.$router.push({ name: "PersonList" });
-          } else if (this.Vaccination.isAdmin && this.Vaccination.currentUser) {
-            this.$router.push({ name: "AdminConsole" });
-          } */
+          }
         })
         .catch(() => {
           this.message = "Could not login";
@@ -126,6 +122,20 @@ export default {
       let char = String.fromCharCode(e.keyCode);
       if (/^[A-Za-z0-9_-]+$/.test(char)) return true;
       else e.preventDefault();
+    },
+  },
+  computed: {
+    currentUser() {
+      return localStorage.getItem("user");
+    },
+    isAdmin() {
+      return AuthService.hasRoles("ROLE_ADMIN");
+    },
+    isDoctor() {
+      return AuthService.hasRoles("ROLE_DOCTOR");
+    },
+    isUser() {
+      return AuthService.hasRoles("ROLE_USER");
     },
   },
 };

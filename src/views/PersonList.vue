@@ -34,7 +34,7 @@
 <script>
 // @ is an alias to /src
 import Personcard from "@/components/Personcard.vue";
-import PersonService from "@/services/PersonService.js";
+import DoctorService from "@/services/DoctorService.js";
 export default {
   name: "PersonList",
   props: {
@@ -55,7 +55,7 @@ export default {
 
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(routeTo, routeFrom, next) {
-    PersonService.getPersons(6, parseInt(routeTo.query.page) || 1)
+    DoctorService.getPersons(6, parseInt(routeTo.query.page) || 1)
       .then((response) => {
         next((comp) => {
           comp.datas = response.data;
@@ -67,7 +67,7 @@ export default {
       });
   },
   beforeRouteUpdate(routeTo) {
-    PersonService.getPersons(6, parseInt(routeTo.query.page) || 1)
+    DoctorService.getPersons(6, parseInt(routeTo.query.page) || 1)
       .then((response) => {
         this.datas = response.data; // <-----
         this.totalPersons = response.headers["x-total-count"];
