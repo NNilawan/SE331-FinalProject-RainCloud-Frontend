@@ -11,7 +11,7 @@
         <q-tab
           label="SECOND DOSE"
           name="two"
-          :disable="event.vaccine.length == 1"
+          :disable="person.gotVaccine.length == 1"
         />
       </q-tabs>
 
@@ -20,7 +20,7 @@
       <q-tab-panels v-model="tab" animated id="text-details">
         <q-tab-panel
           name="one"
-          v-for="vaccine in event.vaccine"
+          v-for="vaccine in person.gotVaccine"
           :key="vaccine.id"
         >
           <q-card-section>
@@ -28,7 +28,7 @@
               <div class="col-md-6 col-sm-12">
                 <q-card-section class="text-left">
                   <p>
-                    NAME: <span id="text-color">{{ vaccine.name }}</span>
+                    NAME: <span id="text-color">{{ vaccine.vaccine.name }}</span>
                   </p>
                   <p>
                     DATE: <span id="text-color">{{ vaccine.date }}</span>
@@ -43,7 +43,7 @@
               </div>
               <div class="col-md-6 col-sm-12">
                 <q-card-section>
-                  <img :src="vaccine.images" id="vaccine-logo" />
+                  <img :src="vaccine.vaccine.picture" id="vaccine-logo" />
                 </q-card-section>
               </div>
             </div>
@@ -60,7 +60,7 @@
               <div class="col-md-6 col-sm-12">
                 <q-card-section class="text-left">
                   <p>
-                    NAME: <span id="text-color">{{ vaccine.name }}</span>
+                    NAME: <span id="text-color">{{ vaccine.vaccine.name }}</span>
                   </p>
                   <p>
                     DATE: <span id="text-color">{{ vaccine.date }}</span>
@@ -75,7 +75,7 @@
               </div>
               <div class="col-md-6 col-sm-12">
                 <q-card-section>
-                  <img :src="vaccine.images" id="vaccine-logo" />
+                  <img :src="vaccine.vaccine.picture" id="vaccine-logo" />
                 </q-card-section>
               </div>
             </div>
@@ -90,11 +90,11 @@
 import { ref } from "vue";
 
 export default {
-  props: ["event"],
+  props: ["person"],
   computed: {
     separateVaccine: function () {
-      const length = this.event.vaccine.length;
-      const array_slice = this.event.vaccine.slice();
+      const length = this.person.gotVaccine.length;
+      const array_slice = this.person.gotVaccine.slice();
       let vaccine_dose2 = null;
       for (let i = 1; i <= length; i++) {
         vaccine_dose2 = array_slice.slice(1);
