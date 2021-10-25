@@ -117,58 +117,7 @@ const routes = [{
         name: 'NetworkError',
         component: NetWorkError
     }
-  ]
-},
-{
-  path: '/404/:resource',
-  name: '404Resource',
-  component: NotFound,
-  props: true
-},
-{
-  path: '/admin',
-  name: 'AdminList',
-  component: AdminList,
-  props: true
-},
-{
-  path: '/admin/:id',
-  name: 'AdminDetails',
-  component: AdminDetails,
-  props: true,
-  beforeEnter: () => {
-    return VaccineService.getVaccine()
-    .then((response) => {
-      GStore.vaccine = response.data
-    })
-    .catch(() => {
-      GStore.vaccine = null
-      console.log('cannot load vaccine')
-    })
-  }, 
-},
-{
-  path: '/login',
-  name: 'Login',
-  component: Login
-},
-{
-  path: '/register',
-  name: 'Register',
-  component: Register
-},
-{
-  path: '/:catchAll(.*)',
-  name: 'NotFound',
-  component: NotFound
-},
-{
-  path: '/network-error',
-  name: 'NetworkError',
-  component: NetWorkError
-}
-
-];
+]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
