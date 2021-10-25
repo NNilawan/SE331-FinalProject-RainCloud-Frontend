@@ -7,8 +7,5 @@
      getUserDetails(id) {
         return apiClient.get('/admin/'+ id)
     },
-     saveVaccine(vaccine) {
-         return apiClient.post('/admin/'+ vaccine)
-     }
  }
  
