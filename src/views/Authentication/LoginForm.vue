@@ -76,6 +76,7 @@ import AuthService from "@/services/AuthService.js";
 import { ref } from "vue";
 
 export default {
+  inject: ["GStore"],
   name: "Login",
   components: {
     Field,
@@ -102,8 +103,8 @@ export default {
   methods: {
     handleLogin(user) {
       AuthService.login(user)
-        .then(() => {
-          this.$router.push({ name: "AdminList" });
+        // .then(() => {
+        //   this.$router.push({ name: "AdminList" });
           /* if (this.Vaccination.isUser && this.Vaccination.currentUser) {
             this.$router.push({ name: "PeopleDetails" });
           } else if (
@@ -114,7 +115,10 @@ export default {
           } else if (this.Vaccination.isAdmin && this.Vaccination.currentUser) {
             this.$router.push({ name: "AdminConsole" });
           } */
-        })
+        // })
+        .then((response) => {
+            this.$router.push('/datas/' + response.user.id + '')
+          })
         .catch(() => {
           this.message = "Could not login";
           setTimeout(() => {
