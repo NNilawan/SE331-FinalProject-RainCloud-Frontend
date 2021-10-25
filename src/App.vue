@@ -24,15 +24,60 @@
         <div v-if="!GStore.currentUser" class="col-md-6 col-sm-12 col-12"></div>
 
         <div v-if="GStore.currentUser" class="col-md-6 col-sm-12 col-12">
-          <div class="row">
-            <div @click="rolePath()">
+          <div class="row" v-if="isUser">
+            <router-link
+              :to="{
+                name: 'PersonDetails',
+                params: { id: this.GStore.currentUser.id },
+              }"
+            >
               <q-toolbar clickable v-ripple>
                 <q-item-section avatar>
-                  <q-icon name="home" />
+                  <q-icon name="person" />
                 </q-item-section>
-                <q-item-label>HOME</q-item-label>
+                <q-item-label>PROFILE</q-item-label>
               </q-toolbar>
-            </div>
+            </router-link>
+
+            <router-link :to="{ name: 'About' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="groups" />
+                </q-item-section>
+                <q-item-label>ABOUT US</q-item-label>
+              </q-toolbar>
+            </router-link>
+          </div>
+
+          <div class="row" v-if="isDoctor">
+            <router-link :to="{ name: 'PersonList' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="list_alt" />
+                </q-item-section>
+                <q-item-label>PATIENT LIST</q-item-label>
+              </q-toolbar>
+            </router-link>
+
+            <router-link :to="{ name: 'About' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="groups" />
+                </q-item-section>
+                <q-item-label>ABOUT US</q-item-label>
+              </q-toolbar>
+            </router-link>
+          </div>
+
+          <div class="row" v-if="isAdmin">
+            <router-link :to="{ name: 'AdminList' }">
+              <q-toolbar clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="manage_accounts" />
+                </q-item-section>
+                <q-item-label>USER LIST</q-item-label>
+              </q-toolbar>
+            </router-link>
 
             <router-link :to="{ name: 'About' }">
               <q-toolbar clickable v-ripple>
@@ -51,7 +96,7 @@
             <q-btn-dropdown color="deep-orange-7" rounded no-caps>
               <template v-slot:label>
                 <div class="row items-center no-wrap">
-                  <q-icon left name="person_outline" />
+                  <q-icon left name="account_circle" />
                   <div class="text-center" style="font-size: 20px">
                     {{ GStore.currentUser.firstname }}
                   </div>
@@ -121,25 +166,19 @@ export default {
       AuthService.logout();
       this.$router.push("/login"); //fix from .go to .push for redirect to login page
     },
-    rolePath() {
-      if (this.GStore.isUser && this.GStore.currentUser) {
-        this.$router.push({ path: "/datas/{id}" });
-      } else if (this.GStore.isDoctor && this.GStore.currentUser) {
-        this.$router.push({ name: "PersonList" });
-      } else if (this.GStore.isAdmin && this.GStore.currentUser) {
-        this.$router.push({ name: "AdminList" });
-      }
-    },
   },
   mounted() {
     if (!this.GStore.currentUser) {
-      this.$router.push({ name: "Login" });
-    } else if (this.GStore.isUser && this.GStore.currentUser) {
-      this.$router.push({ name: "Layout", params: this.GStore.currentUser.id });
-    } else if (this.GStore.isDoctor && this.GStore.currentUser) {
-      this.$router.push({ name: "PersonList" });
-    } else if (this.GStore.isAdmin && this.GStore.currentUser) {
+      this.$router.push("/login");
+    } else if (this.isAdmin) {
       this.$router.push({ name: "AdminList" });
+    } else if (this.isUser) {
+      this.$router.push({
+        name: "PersonDetails",
+        params: { id: this.GStore.currentUser.id },
+      });
+    } else if (this.isDoctor) {
+      this.$router.push({ name: "PersonList" });
     }
   },
 };
