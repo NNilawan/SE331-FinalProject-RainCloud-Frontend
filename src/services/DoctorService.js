@@ -7,5 +7,9 @@ export default {
     //Added new call
     getPerson(id) {
         return apiClient.get('/datas/' + id)
+    },
+
+    getDoctorlist() {
+        return apiClient.get('/doctor')
     }
 }
