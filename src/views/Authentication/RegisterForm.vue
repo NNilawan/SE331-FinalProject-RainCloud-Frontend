@@ -11,32 +11,32 @@
               <div class="col-md-6 col-sm-12 col-12">
                 <Field
                   @submit="handleLogin"
-                  name="name"
+                  name="firstname"
                   v-slot="{ errorMessage, value, field }"
                 >
                   <q-input
-                    label="Name"
-                    v-model="name"
+                    label="Firstname"
                     color="orange"
                     :model-value="value"
                     v-bind="field"
                     :error-message="errorMessage"
                     :error="!!errorMessage"
                     @keydown.space.prevent
+                    v-on:keypress="isAlphabet($event)"
                   />
                 </Field>
               </div>
               <div class="col-md-6 col-sm-12 col-12">
-                <Field name="surname" v-slot="{ errorMessage, value, field }">
+                <Field name="lastname" v-slot="{ errorMessage, value, field }">
                   <q-input
-                    label="Surname"
-                    v-model="surname"
+                    label="Lastname"
                     color="orange"
                     :model-value="value"
                     v-bind="field"
                     :error-message="errorMessage"
                     :error="!!errorMessage"
                     @keydown.space.prevent
+                    v-on:keypress="isAlphabet($event)"
                   />
                 </Field>
               </div>
@@ -45,25 +45,25 @@
               <q-input
                 label="Username"
                 color="orange"
-                v-model="username"
                 :model-value="value"
                 v-bind="field"
                 :error-message="errorMessage"
                 :error="!!errorMessage"
                 @keydown.space.prevent
+                v-on:keypress="isAlphabetOrNumber($event)"
               />
             </Field>
             <Field name="password" v-slot="{ errorMessage, value, field }">
               <q-input
                 label="Password"
                 color="orange"
-                v-model="password"
                 :type="isPwd ? 'password' : 'text'"
                 :model-value="value"
                 v-bind="field"
                 :error-message="errorMessage"
                 :error="!!errorMessage"
                 @keydown.space.prevent
+                v-on:keypress="isAlphabetOrNumber($event)"
               >
                 <template v-slot:append>
                   <q-icon
@@ -80,12 +80,12 @@
                   <q-input
                     :model-value="value"
                     v-bind="field"
+                    v-model="birthDate"
+                    mask="####-##-##"
                     :error-message="errorMessage"
                     :error="!!errorMessage"
                     @keydown.space.prevent
                     label="Date of birth"
-                    v-model="birthDate"
-                    mask="date"
                     color="orange"
                   >
                     <template v-slot:append>
@@ -95,7 +95,7 @@
                           transition-show="scale"
                           transition-hide="scale"
                         >
-                          <q-date v-model="birthDate" color="orange">
+                          <q-date minimal v-model="birthDate" color="orange">
                             <div class="row items-center justify-end">
                               <q-btn
                                 v-close-popup
@@ -115,18 +115,16 @@
                 <Field name="hometown" v-slot="{ errorMessage, value, field }">
                   <q-input
                     label="Hometown"
-                    v-model="hometown"
                     color="orange"
                     :model-value="value"
                     v-bind="field"
                     :error-message="errorMessage"
                     :error="!!errorMessage"
-                    @keydown.space.prevent
                   />
                 </Field>
               </div>
             </div>
-            <UploadImages @changed="handleImages" :max="1" />
+            <UploadImages @changed="handleImages" :max="1" name="picture"/>
 
             <div>
               <q-btn class="btn-auth" push size="20px" type="submit">
@@ -166,24 +164,19 @@ export default {
   },
   setup() {
     return {
-      name: ref(""),
-      surname: ref(""),
-      username: ref(""),
-      password: ref(""),
       isPwd: ref(true),
       birthDate: ref(""),
-      hometown: ref(""),
     };
   },
 
   inject: ["GStore"],
   data() {
     const schema = yup.object().shape({
-      name: yup
+      firstname: yup
         .string()
         .required("Name is required!")
         .max(50, "Must be maximum 50 characters!"),
-      surname: yup
+      lastname: yup
         .string()
         .required("Surname is required!")
         .max(50, "Must be maximum 50 characters!"),
@@ -202,6 +195,8 @@ export default {
         .string()
         .required("Hometown is required!")
         .max(50, "Must be maximum 50 characters!"),
+      picture: yup
+        .string(),
     });
 
     return {
@@ -210,6 +205,7 @@ export default {
       message: "",
       schema,
       files: [],
+      picture: "",
     };
   },
   mounted() {
@@ -221,19 +217,39 @@ export default {
     // eslint-disable-next-line
     handleRegister(user) {
       this.message = "";
-      AuthService.register(user)
-        .then(() => {
-          this.$router.push({ name: "Login" });
+      Promise.all(
+        this.files.map((file) => {
+          return AuthService.uploadFile(file);
         })
-        .catch(() => {
-          this.message = "Could not register";
-          setTimeout(() => {
-            this.message = "";
-          }, 1500);
-        });
+      ).then((response) => {
+        user.picture = response.map((r) => r.data);
+        user.picture = user.picture[0]
+        console.log(user)
+        AuthService.register(user)
+          .then((response) => {
+            console.log(response);
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {
+            this.message = "Could not register";
+            setTimeout(() => {
+              this.message = "";
+            }, 1500);
+          });
+      });
     },
     handleImages(files) {
-      this.files = files
+      this.files = files;
+    },
+    isAlphabetOrNumber(e) {
+      let char = String.fromCharCode(e.keyCode);
+      if (/^[A-Za-z0-9_-]+$/.test(char)) return true;
+      else e.preventDefault();
+    },
+    isAlphabet(e) {
+      let char = String.fromCharCode(e.keyCode);
+      if (/^[A-Za-z]+$/.test(char)) return true;
+      else e.preventDefault();
     },
   },
 };
@@ -448,7 +464,6 @@ img {
     float: none;
     margin: 0 auto;
     width: 100%;
-    margin-top: -70px;
   }
   .login .container {
     -webkit-animation: slideIn 0.8s ease-in-out forwards;

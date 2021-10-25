@@ -37,10 +37,23 @@ export default {
         }
     },
     register(user) {
-        return apiClient.post('/auth/register', {
+        return apiClient.post('/auth/registers', {
+            firstname: user.firstname,
+            lastname: user.lastname,
             username: user.username,
-            email: user.email,
-            password: user.password
+            password: user.password,
+            birthDate: user.birthDate,
+            hometown: user.hometown,
+            picture: user.picture
+        })
+    },
+    uploadFile(file) {
+        let formData = new FormData()
+        formData.append('file', file)
+        return apiClient.post('/uploadFile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
     }
 }
