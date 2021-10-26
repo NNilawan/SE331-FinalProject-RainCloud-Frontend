@@ -4,7 +4,11 @@
       <h2 class="text-h1">{{ title }}</h2>
       <div class="q-pa-md nav flex flex-center">
         <q-item id="nav-btn" class="q-gutter-md">
-          <router-link :to="{ name: 'PersonDetails', params: { id: GStore.person.id  } }">
+          <!-- <span > -->
+          <router-link
+            v-if="isDoctor || isUser"
+            :to="{ name: 'PersonDetails', params: { id: GStore.person.id } }"
+          >
             <q-item clickable v-ripple id="nav-content">
               <q-section>
                 <span class="material-icons-outlined"> account_circle </span>
@@ -12,8 +16,10 @@
               </q-section>
             </q-item>
           </router-link>
-
-          <router-link :to="{ name: 'VaccineDetails', params: { id: GStore.person.id  } }">
+          <!-- </span> -->
+          <router-link
+            :to="{ name: 'VaccineDetails', params: { id: GStore.person.id } }"
+          >
             <q-item clickable v-ripple id="nav-content">
               <q-section>
                 <q-icon name="vaccines" />
@@ -22,7 +28,9 @@
             </q-item>
           </router-link>
 
-          <router-link :to="{ name: 'DoctorDetails', params: { id: GStore.person.id  } }">
+          <router-link
+            :to="{ name: 'DoctorDetails', params: { id: GStore.person.id } }"
+          >
             <q-item clickable v-ripple id="nav-content">
               <q-section>
                 <span class="material-icons-outlined"> reviews </span>
@@ -39,7 +47,7 @@
 
 <script>
 import { ref } from "vue";
-
+import AuthService from "../../services/AuthService.js";
 export default {
   inject: ["GStore"],
   props: {
@@ -61,6 +69,15 @@ export default {
         title_name = "DOCTOR RECOMMENDATION";
       }
       return title_name;
+    },
+    isAdmin() {
+      return AuthService.hasRoles("ROLE_ADMIN");
+    },
+    isDoctor() {
+      return AuthService.hasRoles("ROLE_DOCTOR");
+    },
+    isUser() {
+      return AuthService.hasRoles("ROLE_USER");
     },
   },
   setup() {
