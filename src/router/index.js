@@ -36,7 +36,7 @@ const routes = [{
     name: "Layout",
     props: true,
     component: Layout,
-    BeforeUnloadEvent: (to) => {
+    beforeEnter: (to) => {
         return PersonService.getPerson(to.params.id)
             .then((response) => {
                 GStore.person = response.data // <--- Store the event
@@ -56,6 +56,7 @@ const routes = [{
         path: '',
         name: "PersonDetails",
         component: PersonDetails,
+        props:true,
     },
     {
         path: '/datas/:id/vaccine-details',
@@ -75,8 +76,8 @@ const routes = [{
     path: '/changes/:id',
     name: 'Confirm',
     component: Confirm,
-    props: (to) => {
-        return AdminService.getRoleUser(to.params.id)
+    props: (route) => {
+        return AdminService.getRoleUser(route.params.id)
     },
 },
 {
