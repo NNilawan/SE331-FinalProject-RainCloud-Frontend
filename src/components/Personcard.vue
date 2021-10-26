@@ -8,7 +8,7 @@
         <img id="people-img" v-bind:src="data.picture" />
 
         <q-card-section>
-          <div class="text-h4">Name: {{ data.name }} {{ data.surname }}</div>
+          <div class="text-h4">Name: {{ data.firstname }} {{ data.lastname }}</div>
           <div class="text-h5">
             <q-icon name="vaccines" /> Status: {{ vaccine }}
           </div>
@@ -29,11 +29,11 @@ export default {
   },
   computed: {
     vaccine: function () {
-      var dose2 = this.data.status_does2;
-      if (dose2 === true) {
+      // var dose2 = this.data.status_does2;
+      if (this.data.gotVaccine.length > 1 ) {
         return "Already get second dose";
       } else {
-        return "Get the first dose";
+        return "Get only the first dose";
       }
     },
   },
