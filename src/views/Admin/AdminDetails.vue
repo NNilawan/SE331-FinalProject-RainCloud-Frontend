@@ -17,6 +17,8 @@
             </q-card>
           </div>
         </div>
+
+        <!-- Vaccine name -->
         <div class="col-6">
           <form @submit.prevent="saveVaccine">
             <div class="row data">
@@ -37,7 +39,7 @@
               <div class="col-4">
                 <select v-model="user_vaccine.dose" class="select">
                   <option
-                    v-for="option in 3"
+                    v-for="option in 2"
                     :value="option"
                     :key="option"
                     :selected="option === user_vaccine.dose"
@@ -76,7 +78,7 @@
             </div>
 
             <div class="row data">
-              <div class="col-3 name">Place or Hospital: </div>
+              <div class="col-3 name">Place or Hospital:</div>
               <div class="col-9">
                 <q-input
                   rounded
@@ -103,15 +105,49 @@
               </div>
             </div>
             <div class="row data">
-              <q-btn
-                class="btn-auth"
-                color="orange"
-                push
-                size="20px"
-                type="submit"
-              >
-                <span>Save</span>
-              </q-btn>
+              <div class="col-1">
+                <q-btn
+                  class="btn-auth"
+                  color="orange"
+                  push
+                  size="20px"
+                  type="submit"
+                >
+                  <span>Save</span>
+                </q-btn>
+              </div>
+              <div class="col-1">
+                <router-link
+                  style="text-decoration: none"
+                  :to="{ name: 'AdminList' }"
+                >
+                  <q-btn
+                    class="btn-auth"
+                    color="orange"
+                    push
+                    size="20px"
+                    type="submit"
+                  >
+                    <span>Back</span>
+                  </q-btn>
+                </router-link>
+              </div>
+              <div class="col-1">
+                <router-link
+                  style="text-decoration: none"
+                  :to="{ name: 'VaccineDetails', params: { id: user.id } }"
+                >
+                  <q-btn
+                    class="btn-auth"
+                    color="orange"
+                    push
+                    size="20px"
+                    type="submit"
+                  >
+                    <span>Detail</span>
+                  </q-btn>
+                </router-link>
+              </div>
             </div>
           </form>
         </div>
@@ -186,11 +222,11 @@ export default {
       return age;
     },
   },
-
   setup() {
     return {
       datetime: ref(""),
       timeWithSeconds: ref("10:56:00"),
+      num: [1, 2],
     };
   },
 };
@@ -236,6 +272,5 @@ export default {
   padding-left: 20px;
   padding-top: 10px;
 }
-
 </style>
 
