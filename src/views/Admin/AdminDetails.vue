@@ -22,8 +22,8 @@
         <div class="col-6">
           <form @submit.prevent="saveVaccine">
             <div class="row data">
-              <div class="col-2 name">Vaccine name:</div>
-              <div class="col-5">
+              <div class="col-3 name">Vaccine name:</div>
+              <div class="col-4">
                 <select v-model="user_vaccine.vaccine.id" class="select">
                   <option
                     v-for="option in GStore.vaccine"
@@ -35,9 +35,9 @@
                   </option>
                 </select>
               </div>
-              <div class="col-1 name">Does:</div>
-              <div class="col-4">
-                <select v-model="user_vaccine.dose" class="select">
+              <div class="col-2 name">Get Dose:</div>
+              <!-- <div class="col-4"> -->
+                <!-- <select v-model="user_vaccine.dose" class="select">
                   <option
                     v-for="option in 2"
                     :value="option"
@@ -46,8 +46,17 @@
                   >
                     {{ option }}
                   </option>
-                </select>
+                </select> -->
+                <div class="col-3">
+                <q-input
+                  rounded
+                  outlined
+                  standout="bg-orange text-white"
+                  v-model="user_vaccine.dose"
+                  disable
+                />
               </div>
+              <!-- </div> -->
             </div>
 
             <div class="row data">
@@ -90,8 +99,8 @@
               </div>
             </div>
             <div class="row data">
-              <div class="col-2 name">Doctor name:</div>
-              <div class="col-10">
+              <div class="col-3 name">Doctor name:</div>
+              <div class="col-9">
                 <select v-model="user_vaccine.doctor.id" class="select">
                   <option
                     v-for="option in GStore.doctor"
@@ -177,7 +186,6 @@ export default {
         doctor: { id: "", name: "" },
         vaccine: { id: "", name: "" },
       },
-
       user: null,
     };
   },
@@ -185,6 +193,7 @@ export default {
     AdminService.getUserDetails(this.id)
       .then((response) => {
         this.user = response.data;
+        this.user_vaccine.dose = this.user.gotVaccine.length+1;
       })
       .catch((error) => {
         console.log(error);
@@ -221,6 +230,9 @@ export default {
       let age = Math.floor(difference / 31557600000);
       return age;
     },
+    dose: function () {
+      return this.user.gotVaccine.length+1;
+    }
   },
   setup() {
     return {
