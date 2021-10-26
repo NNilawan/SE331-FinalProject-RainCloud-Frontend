@@ -25,7 +25,10 @@
           </div>
 
           <div class="col-1 subtable">
-            <router-link style="text-decoration:none" :to="{ name: 'AdminDetails', params: { id: data.id } }">
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'AdminDetails', params: { id: data.id } }"
+            >
               <q-btn color="orange" label="Edit" />
             </router-link>
           </div>
@@ -42,11 +45,19 @@
             <span v-else>User</span>
           </div>
           <div class="col-2 subtable">
-            <q-btn color="orange" label="Change role" />
+            <q-btn
+              color="orange"
+              :to="/changes/data.id"
+              @click.prevent="updateRole(data.id)"
+              label="Change role"
+            />
           </div>
 
           <div class="col-1 subtable">
-            <router-link  style="text-decoration:none" :to="{ name: 'AdminDetails' , params: { id: data.id } }">
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'AdminDetails', params: { id: data.id } }"
+            >
               <q-btn color="orange" label="Edit" />
             </router-link>
           </div>
@@ -75,6 +86,20 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+  },
+  methods: {
+    updateRole(id) {
+      AdminService.getRoleUser(id)
+        .then((response) => {
+          console.log(response);
+          this.$router.push({
+            name: "AdminList",
+          });
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
+    },
   },
 };
 </script>

@@ -15,108 +15,108 @@ import VaccineService from '@/services/VaccineService.js'
 import AdminList from '@/views/Admin/AdminList.vue'
 import AdminDetails from '@/views/Admin/AdminDetails.vue'
 const routes = [{
-        path: '/',
-        name: 'PersonList',
-        component: PersonList,
-        props: (route) => ({ page: parseInt(route.query.page) || 1 })
-    },
-    {
-        path: "/about",
-        name: "About",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "about" */ "../views/About.vue"),
-    },
-    {
-        path: "/datas/:id",
-        name: "Layout",
-        props: true,
-        component: Layout,
-        beforeEnter: (to) => {
-            return PersonService.getPerson(to.params.id)
-                .then((response) => {
-                    GStore.person = response.data // <--- Store the event
-                })
-                .catch((error) => {
-                    if (error.response && error.response.status == 404) {
-                        return {
-                            name: '404Resource',
-                            params: { resource: 'person' }
-                        }
-                    } else {
-                        return { name: 'NetworkError' }
+    path: '/',
+    name: 'PersonList',
+    component: PersonList,
+    props: (route) => ({ page: parseInt(route.query.page) || 1 })
+},
+{
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+        import( /* webpackChunkName: "about" */ "../views/About.vue"),
+},
+{
+    path: "/datas/:id",
+    name: "Layout",
+    props: true,
+    component: Layout,
+    beforeEnter: (to) => {
+        return PersonService.getPerson(to.params.id)
+            .then((response) => {
+                GStore.person = response.data // <--- Store the event
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 404) {
+                    return {
+                        name: '404Resource',
+                        params: { resource: 'person' }
                     }
-                })
-        },
-        children: [{
-                path: '',
-                name: "PersonDetails",
-                component: PersonDetails,
-            },
-            {
-                path: '/datas/:id/vaccine-details',
-                name: 'VaccineDetails',
-                props: true,
-                component: VaccineDetails
-            },
-            {
-                path: '/datas/:id/doctor-recommendation',
-                name: 'DoctorDetails',
-                props: true,
-                component: DoctorDetails
-            }
-        ]
+                } else {
+                    return { name: 'NetworkError' }
+                }
+            })
+    },
+    children: [{
+        path: '',
+        name: "PersonDetails",
+        component: PersonDetails,
     },
     {
-        path: '/404/:resource',
-        name: '404Resource',
-        component: NotFound,
-        props: true
-    },
-    {
-        path: '/admin',
-        name: 'AdminList',
-        component: AdminList,
-        props: true
-    },
-    {
-        path: '/admin/:id',
-        name: 'AdminDetails',
-        component: AdminDetails,
+        path: '/datas/:id/vaccine-details',
+        name: 'VaccineDetails',
         props: true,
-        beforeEnter: () => {
-            return VaccineService.getVaccine()
-                .then((response) => {
-                    GStore.vaccine = response.data
-                })
-                .catch(() => {
-                    GStore.vaccine = null
-                    console.log('cannot load vaccine')
-                })
-        }
+        component: VaccineDetails
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: Register
-    },
-    {
-        path: '/:catchAll(.*)',
-        name: 'NotFound',
-        component: NotFound
-    },
-    {
-        path: '/network-error',
-        name: 'NetworkError',
-        component: NetWorkError
+        path: '/datas/:id/doctor-recommendation',
+        name: 'DoctorDetails',
+        props: true,
+        component: DoctorDetails
     }
+    ]
+},
+{
+    path: '/404/:resource',
+    name: '404Resource',
+    component: NotFound,
+    props: true
+},
+{
+    path: '/admin',
+    name: 'AdminList',
+    component: AdminList,
+    props: true
+},
+{
+    path: '/admin/:id',
+    name: 'AdminDetails',
+    component: AdminDetails,
+    props: true,
+    beforeEnter: () => {
+        return VaccineService.getVaccine()
+            .then((response) => {
+                GStore.vaccine = response.data
+            })
+            .catch(() => {
+                GStore.vaccine = null
+                console.log('cannot load vaccine')
+            })
+    }
+},
+{
+    path: '/login',
+    name: 'Login',
+    component: Login
+},
+{
+    path: '/register',
+    name: 'Register',
+    component: Register
+},
+{
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
+},
+{
+    path: '/network-error',
+    name: 'NetworkError',
+    component: NetWorkError
+}
 ]
 
 const router = createRouter({

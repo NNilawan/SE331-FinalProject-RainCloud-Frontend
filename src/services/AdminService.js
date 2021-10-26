@@ -7,5 +7,8 @@
      getUserDetails(id) {
         return apiClient.get('/admin/'+ id)
     },
+    getRoleUser(id) {
+        return apiClient.patch('/changes/'+ id)
+    }
  }
  
