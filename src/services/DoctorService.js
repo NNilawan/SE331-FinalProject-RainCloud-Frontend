@@ -11,5 +11,9 @@ export default {
 
     getDoctorlist() {
         return apiClient.get('/doctor')
-    }
+    },
+
+    getPersonsByKeyword(keyword, perPage, page) {
+        return apiClient.get('/datas?_limit=' + perPage + '&_page=' + page + '&title=' + keyword)
+    },
 }

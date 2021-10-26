@@ -174,11 +174,11 @@ export default {
     const schema = yup.object().shape({
       firstname: yup
         .string()
-        .required("Name is required!")
+        .required("Firstname is required!")
         .max(50, "Must be maximum 50 characters!"),
       lastname: yup
         .string()
-        .required("Surname is required!")
+        .required("Lastname is required!")
         .max(50, "Must be maximum 50 characters!"),
       username: yup
         .string()

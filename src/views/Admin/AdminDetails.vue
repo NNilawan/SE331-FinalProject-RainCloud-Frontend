@@ -233,14 +233,6 @@ export default {
 </script>
 
 <style>
-.table {
-  font-size: 25px;
-  padding: 10px 15px;
-  background: #ffa9485d;
-  border: 1px solid rgba(2, 1, 2, 0.2);
-  margin-top: 1rem;
-  text-align: center;
-}
 .admin-card {
   width: 100%;
   max-width: 100%;

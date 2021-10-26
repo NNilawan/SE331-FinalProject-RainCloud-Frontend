@@ -113,8 +113,8 @@ export default {
 .table {
   font-size: 25px;
   padding: 10px 15px;
-  background: #ffa9485d;
-  border: 1px solid rgba(2, 1, 2, 0.2);
+  background: #ffbf485d;
+  border: 1px solid #02010233;
   margin-top: 1rem;
   text-align: center;
 }
@@ -123,7 +123,7 @@ export default {
   padding: 10px 15px;
   /* margin-top: 1rem; */
   background: white;
-  border: 1px solid rgba(2, 1, 2, 0.2);
+  border: 1px solid #02010233;
   text-align: center;
 }
 .title {

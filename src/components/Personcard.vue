@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-md col-4">
+  <div class="q-pa-md row items-start q-gutter-md col-6">
     <router-link
       class="event-link"
       :to="{ name: 'PersonDetails', params: { id: data.id } }"
