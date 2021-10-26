@@ -21,7 +21,12 @@
             <span v-else>User</span>
           </div>
           <div class="col-2 subtable">
-            <q-btn color="orange" label="Change role" />
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'Confirm', params: { id: data.id } }"
+            >
+              <q-btn color="orange" label="Change role" />
+            </router-link>
           </div>
 
           <div class="col-1 subtable">
@@ -45,12 +50,12 @@
             <span v-else>User</span>
           </div>
           <div class="col-2 subtable">
-            <q-btn
-              color="orange"
-              :to="/changes/data.id"
-              @click.prevent="updateRole(data.id)"
-              label="Change role"
-            />
+            <router-link
+              style="text-decoration: none"
+              :to="{ name: 'Confirm', params: { id: data.id } }"
+            >
+              <q-btn color="orange" label="Change role" />
+            </router-link>
           </div>
 
           <div class="col-1 subtable">

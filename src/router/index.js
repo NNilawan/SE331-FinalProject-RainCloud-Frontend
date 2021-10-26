@@ -12,8 +12,10 @@ import GStore from '@/store'
 import Login from '@/views/Authentication/LoginForm.vue'
 import Register from '@/views/Authentication/RegisterForm.vue'
 import VaccineService from '@/services/VaccineService.js'
+import AdminService from '@/services/AdminService.js'
 import AdminList from '@/views/Admin/AdminList.vue'
 import AdminDetails from '@/views/Admin/AdminDetails.vue'
+import Confirm from '@/views/Admin/Confirm.vue'
 const routes = [{
     path: '/',
     name: 'PersonList',
@@ -34,7 +36,7 @@ const routes = [{
     name: "Layout",
     props: true,
     component: Layout,
-    beforeEnter: (to) => {
+    BeforeUnloadEvent: (to) => {
         return PersonService.getPerson(to.params.id)
             .then((response) => {
                 GStore.person = response.data // <--- Store the event
@@ -68,6 +70,14 @@ const routes = [{
         component: DoctorDetails
     }
     ]
+},
+{
+    path: '/changes/:id',
+    name: 'Confirm',
+    component: Confirm,
+    props: (to) => {
+        return AdminService.getRoleUser(to.params.id)
+    },
 },
 {
     path: '/404/:resource',
