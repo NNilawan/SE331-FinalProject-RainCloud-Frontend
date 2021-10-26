@@ -5,7 +5,9 @@
 <script>
 export default {
   created() {
-    window.location.href = "http://3.95.250.41:8001/admin";
+    this.$router.push({
+      name: "AdminList",
+    });
   },
 };
 </script>
