@@ -35,7 +35,7 @@
                 <q-item-section avatar>
                   <q-icon name="person" />
                 </q-item-section>
-                <q-item-label>PROFILE</q-item-label>
+                <q-item-label>PERSON DETAILS</q-item-label>
               </q-toolbar>
             </router-link>
 
@@ -177,8 +177,6 @@ export default {
         name: "PersonDetails",
         params: { id: this.GStore.currentUser.id },
       });
-    } else if (this.isDoctor) {
-      this.$router.push({ name: "PersonList" });
     }
   },
 };

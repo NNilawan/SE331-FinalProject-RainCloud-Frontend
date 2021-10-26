@@ -1,8 +1,18 @@
 <template>
   <div class="q-pa-md">
     <div class="home">
-      <h1 class="title">PEOPLE LIST</h1>
-      <h2 class="subtitle">THE PEOPLE LIST WHO HAVE BEEN VACCINATED</h2>
+      <h1 class="title">PATIENT LIST</h1>
+      <h2 class="subtitle">THE PATIENT LIST IN RESPONSIBILITY</h2>
+      <q-item class="serach-section">
+        <q-icon name="search" class="search-icon text-h4" />
+        <BaseInput
+          v-model="keyword"
+          type="text"
+          placeholder="Search patient"
+          @input="updateKeyword"
+          class="search-box"
+        />
+      </q-item>
     </div>
 
     <div class="row">
@@ -35,6 +45,8 @@
 // @ is an alias to /src
 import Personcard from "@/components/Personcard.vue";
 import DoctorService from "@/services/DoctorService.js";
+import BaseInput from "@/components/BaseInput.vue";
+
 export default {
   name: "PersonList",
   props: {
@@ -45,17 +57,40 @@ export default {
   },
   components: {
     Personcard,
+    BaseInput,
   },
   data() {
     return {
       datas: null,
       totalPersons: 0, // <--- Added this to store totalPersons
+      keyword: null,
     };
+  },
+  methods: {
+    updateKeyword() {
+      var queryFunction;
+      if (this.keyword === "") {
+        queryFunction = DoctorService.getPersons(4, 1);
+      } else {
+        queryFunction = DoctorService.getPersonsByKeyword(this.keyword, 4, 1);
+      }
+
+      queryFunction
+        .then((response) => {
+          this.datas = response.data;
+          console.log(this.datas);
+          this.totalPersons = response.headers["x-total-count"];
+          console.log(this.totalPersons);
+        })
+        .catch(() => {
+          return { name: "NetworkError" };
+        });
+    },
   },
 
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(routeTo, routeFrom, next) {
-    DoctorService.getPersons(6, parseInt(routeTo.query.page) || 1)
+    DoctorService.getPersons(4, parseInt(routeTo.query.page) || 1)
       .then((response) => {
         next((comp) => {
           comp.datas = response.data;
@@ -67,7 +102,7 @@ export default {
       });
   },
   beforeRouteUpdate(routeTo) {
-    DoctorService.getPersons(6, parseInt(routeTo.query.page) || 1)
+    DoctorService.getPersons(4, parseInt(routeTo.query.page) || 1)
       .then((response) => {
         this.datas = response.data; // <-----
         this.totalPersons = response.headers["x-total-count"];
@@ -79,7 +114,7 @@ export default {
   computed: {
     hasNextPage() {
       // First, calculate total pages
-      let totalPages = Math.ceil(this.totalPersons / 6); // 2 is events per page
+      let totalPages = Math.ceil(this.totalPersons / 4); // 2 is events per page
 
       // Then check to see if the current page is less than the total pages.
       return this.page < totalPages;
@@ -110,5 +145,24 @@ export default {
 }
 .row {
   justify-content: center;
+}
+
+.search-box {
+  font-size: bolder;
+  width: 400px;
+  height: 40px;
+  padding: 1%;
+  border: none;
+  font-size: 20px;
+  border-radius: 22px;
+  border: 2px solid #ff7423;
+}
+
+.search-icon {
+  color: #ff7423;
+}
+
+.serach-section {
+  margin: -30px 0 20px 0;
 }
 </style>
