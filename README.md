@@ -25,6 +25,6 @@
         <td><a href="https://github.com/mineteeraa" target="blank">mineteeraa</a></td>
     </tr>
     </table>
-    <h3>Web application url (AWS): <a href="#" target="blank">#</a></h3>
+    <h3>Web application url (AWS): <a href="http://3.95.250.41:8001/" target="blank">http://3.95.250.41:8001/</a></h3>
 </body>
 </html>
